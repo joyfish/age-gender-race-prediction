@@ -19,6 +19,7 @@ import glob
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from keras.utils import plot_model
 
 
 # In[ ]:
@@ -208,7 +209,8 @@ model.compile(optimizer='rmsprop',
               loss_weights={'age_output': 2., 'race_output': 1.5, 'gender_output': 1.},
               metrics={'age_output': 'mae', 'race_output': 'accuracy', 'gender_output': 'accuracy'})
 # model.summary()
-
+os.makedirs('modelsave' , exist_ok=True)
+plot_model(model , 'modelsave' + os.sep + 'model.png' ,show_shapes=True)
 
 # In[ ]:
 
