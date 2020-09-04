@@ -157,8 +157,12 @@ def get_data_generator(df, indices, for_training, batch_size=16):
             im = np.array(im) / 255.0
             images.append(im)
             ages.append(age / max_age)
-            races.append(to_categorical(race, len(RACE_ID_MAP)))
-            genders.append(to_categorical(gender, 2))
+            cat_race = to_categorical(race, len(RACE_ID_MAP))
+            #print(f'race:{race}, cat.shape:{cat_race.shape}')
+            #races.append(race)
+            #races.append(cat_race) 
+            races.append(cat_race[0]) 
+            genders.append(to_categorical(gender, 2)[0])
             if len(images) >= batch_size:
                 yield np.array(images), [np.array(ages), np.array(races), np.array(genders)]
                 images, ages, races, genders = [], [], [], []

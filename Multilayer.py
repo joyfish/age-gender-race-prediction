@@ -41,10 +41,10 @@ def parse_filepath(filepath):
 age = np.array([30.0,35.0,35.0,53.0,45.0,23.0,23.0,24.0,24.0,42.0])
 gender = np.array(['male','male','male','male','male','male','male','male','male','male'])
 ethni = np.array(['white','others','others','white','white','white','white','indian','indian','white'])    
-files_test = glob.glob(os.path.join("C:\\Users\\magnus\\test_pictures", "*.jpg"))    
+#files_test = glob.glob(os.path.join("C:\\Users\\magnus\\test_pictures", "*.jpg"))    
 
-dictur = {'age':age,'gender':gender,'race':ethni,'file':files_test}
-pd_test = pd.DataFrame(dictur)
+#dictur = {'age':age,'gender':gender,'race':ethni,'file':files_test}
+#pd_test = pd.DataFrame(dictur)
 
 files = glob.glob(os.path.join(DATA_DIR, "*.jpg"))
 attributes = list(map(parse_filepath, files))
@@ -80,12 +80,12 @@ def get_data_generator(df, indices, for_training, batch_size=16):
             r = df.iloc[i]
             file, age, race, gender = r['file'], r['age'], r['race_id'], r['gender_id']
             im = Image.open(file)
-            im = im.resize((200, 200))
+            im = im.resize((IM_WIDTH, IM_HEIGHT))
             im = np.array(im) / 255.0
             images.append(im)
             ages.append(age / max_age)
-            races.append(to_categorical(race, len(RACE_ID_MAP)))
-            genders.append(to_categorical(gender, 2))
+            races.append(to_categorical(race, len(RACE_ID_MAP))[0])
+            genders.append(to_categorical(gender, 2)[0])
             if len(images) >= batch_size:
                 yield np.array(images), [np.array(ages), np.array(races), np.array(genders)]
                 images, ages, races, genders = [], [], [], []
