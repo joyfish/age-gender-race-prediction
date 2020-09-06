@@ -20,10 +20,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from keras.utils import plot_model
+import sys
 
-
-# In[ ]:
-
+#UTKFace | Large Scale Face Dataset
+#https://susanqq.github.io/UTKFace/
 #get_ipython().run_cell_magic('bash', '', "ls ../input/utkface_aligned_cropped\n# it seems crop_part1 conists of subset of data contained in UTKFace so we won't be using it.")
 
 
@@ -41,7 +41,7 @@ ID_RACE_MAP = {0: 'white', 1: 'black', 2: 'asian', 3: 'indian', 4: 'others'}
 RACE_ID_MAP = dict((r, i) for i, r in ID_RACE_MAP.items())
 
 ID_GENDER_MAP, GENDER_ID_MAP, ID_RACE_MAP, RACE_ID_MAP
-
+assert os.path.exists(DATA_DIR), print(f"\033[1;40;35m*  [{sys._getframe().f_lineno}] {DATA_DIR} not exists https://susanqq.github.io/UTKFace/ ====\033[0m")
 
 # In[ ]:
 
@@ -59,11 +59,12 @@ def parse_filepath(filepath):
 # In[ ]:
 
 # create a pandas data frame of images, age, gender and race
+# ['../UTKFace/UTKFace/26_1_0_20170117154817805.jpg.chip.jpg', '../UTKFace/UTKFace/55_1_3_20170117153430708.jpg.chip.jpg',....]
 files = glob.glob(os.path.join(DATA_DIR, "*.jpg"))
 
 
 # In[ ]:
-
+#[(26, 'female', 'white'), (55, 'female', 'indian'), ....
 attributes = list(map(parse_filepath, files))
 
 
@@ -75,13 +76,11 @@ df.columns = ['age', 'gender', 'race', 'file']
 df = df.dropna()
 df.head()
 
-
-# # Exploratory analysis
-
-# In[ ]:
-
 df.describe()
 
+#ID_GENDER_MAP, GENDER_ID_MAP, ID_RACE_MAP, RACE_ID_MAP
+print(f"\033[1;40;35m*  [{sys._getframe().f_lineno}] shape {df.shape} ID_GENDER_MAP:{len(ID_GENDER_MAP)} GENDER_ID_MAP:{len(GENDER_ID_MAP)} \
+ID_RACE_MAP:{len(ID_RACE_MAP)} RACE_ID_MAP:{len(RACE_ID_MAP)}====\033[0m")  #shape (23705, 4) ID_GENDER_MAP:2 GENDER_ID_MAP:2 ID_RACE_MAP:5 RACE_ID_MAP:5
 
 # In[ ]:
 
